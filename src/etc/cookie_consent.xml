@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Pixelperfect_HyvaCookieConsent:etc/cookie_consent.xsd">
+    <services>
+        <service code="klaviyo" category="marketing">
+            <title>Klaviyo</title>
+            <description>Email and SMS marketing platform. Tracks product views, cart activity, and customer identification for personalized marketing campaigns.</description>
+            <template>PixelPerfect_KlaviyoHyvaCookieConsent::services/klaviyo.phtml</template>
+            <enabled_by_default>false</enabled_by_default>
+            <cookies>
+                <cookie name="__kla_id" duration="2 years">
+                    <description>Klaviyo customer identification and tracking</description>
+                </cookie>
+            </cookies>
+        </service>
+    </services>
+</config>
