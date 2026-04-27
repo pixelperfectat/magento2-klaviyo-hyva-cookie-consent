@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="PixelPerfect_KlaviyoHyvaCookieConsent">
+        <sequence>
+            <module name="Klaviyo_Reclaim"/>
+            <module name="Pixelperfect_HyvaCookieConsent"/>
+            <module name="PixelPerfect_KlaviyoHyvaCompat"/>
+        </sequence>
+    </module>
+</config>

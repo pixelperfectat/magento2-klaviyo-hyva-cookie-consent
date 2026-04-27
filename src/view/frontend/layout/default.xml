@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Remove unconditional Klaviyo CDN loading from base compat module.
+             The service template (services/klaviyo.phtml) handles this with consent gating. -->
+        <referenceBlock name="klaviyo.initialize" remove="true"/>
+    </body>
+</page>
