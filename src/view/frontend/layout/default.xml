@@ -5,5 +5,16 @@
         <!-- Remove unconditional Klaviyo CDN loading from base compat module.
              The service template (services/klaviyo.phtml) handles this with consent gating. -->
         <referenceBlock name="klaviyo.initialize" remove="true"/>
+
+        <referenceContainer name="before.body.end">
+            <block name="hyva.cookie.consent.service.klaviyo"
+                   template="PixelPerfect_KlaviyoHyvaCookieConsent::services/klaviyo.phtml"
+                   ifconfig="hyva_cookie_consent/services/klaviyo/enabled"
+                   after="hyva.cookie.consent.service.matomo">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Pixelperfect\HyvaCookieConsent\ViewModel\CookieConsent</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
     </body>
 </page>
