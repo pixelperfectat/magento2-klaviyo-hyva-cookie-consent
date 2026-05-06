@@ -55,7 +55,7 @@ $category = $service->getCategory();
 
 <!-- Customer identify — listens for Magento private-content-loaded and
      calls klaviyo.identify() once marketing consent + SDK are both ready. -->
-<div x-data="klaviyoCustomerTracking" @private-content-loaded.window="onPrivateContentLoaded($event)"></div>
+<div x-data="klaviyoCustomerTracking" @private-content-loaded.window="onPrivateContentLoaded"></div>
 
 <script>
     function initKlaviyoCustomerTracking() {
