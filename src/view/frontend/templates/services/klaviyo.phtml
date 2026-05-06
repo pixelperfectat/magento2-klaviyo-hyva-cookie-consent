@@ -6,47 +6,38 @@ use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HyvaCsp;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use PixelPerfect\KlaviyoHyvaCookieConsent\ViewModel\KlaviyoConfig;
 use Pixelperfect\HyvaCookieConsent\ViewModel\CookieConsent;
-use Klaviyo\Reclaim\Helper\ScopeSetting;
 
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ViewModelRegistry $viewModels */
 
-// Get Cookie Consent ViewModel
 $consentViewModel = $block->getData('view_model');
 if (!$consentViewModel instanceof CookieConsent) {
-    $viewModels = $block->getData('view_models');
-    $consentViewModel = $viewModels ? $viewModels->require(CookieConsent::class) : null;
+    $consentViewModel = $viewModels->require(CookieConsent::class);
 }
 
-if (!$consentViewModel) {
-    return;
-}
-
-/** @var HyvaCsp $hyvaCsp */
-$hyvaCsp = $viewModels->require(HyvaCsp::class);
-
-// Check service is enabled in cookie consent admin
 $service = $consentViewModel->getServicePool()->getService('klaviyo');
 if (!$service || !$service->isEnabled()) {
     return;
 }
 
-// Get Klaviyo API key from the original module's config
-$scopeSetting = \Magento\Framework\App\ObjectManager::getInstance()->get(ScopeSetting::class);
+/** @var KlaviyoConfig $klaviyoConfig */
+$klaviyoConfig = $viewModels->require(KlaviyoConfig::class);
 
-if (!$scopeSetting->isEnabled()) {
+if (!$klaviyoConfig->isEnabled()) {
     return;
 }
 
-$klaviyoKey = $scopeSetting->getPublicApiKey();
-if (empty($klaviyoKey)) {
+$klaviyoSrc = $klaviyoConfig->getCdnUrl();
+if ($klaviyoSrc === null) {
     return;
 }
 
+/** @var HyvaCsp $hyvaCsp */
+$hyvaCsp = $viewModels->require(HyvaCsp::class);
 $category = $service->getCategory();
-$klaviyoSrc = 'https://static.klaviyo.com/onsite/js/' . $escaper->escapeHtmlAttr($klaviyoKey) . '/klaviyo.js';
 ?>
 
 <!-- Override default consent check to use cookie consent groups -->
@@ -57,7 +48,7 @@ $klaviyoSrc = 'https://static.klaviyo.com/onsite/js/' . $escaper->escapeHtmlAttr
 </script>
 <?php $hyvaCsp->registerInlineScript() ?>
 
-<!-- Klaviyo CDN - Blocked until marketing consent -->
+<!-- Klaviyo CDN — gated until marketing consent -->
 <template data-consent-category="<?= $escaper->escapeHtmlAttr($category) ?>">
     <script async src="<?= $escaper->escapeUrl($klaviyoSrc) ?>"></script>
 </template>
