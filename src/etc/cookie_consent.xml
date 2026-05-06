@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Pixelperfect_HyvaCookieConsent:etc/cookie_consent.xsd">
+<cookie_consent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="urn:magento:module:Pixelperfect_HyvaCookieConsent:etc/cookie_consent.xsd">
     <services>
         <service code="klaviyo" category="marketing">
             <title>Klaviyo</title>
@@ -14,4 +14,4 @@
             </cookies>
         </service>
     </services>
-</config>
+</cookie_consent>
