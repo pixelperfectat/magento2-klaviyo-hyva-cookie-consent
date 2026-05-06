@@ -52,3 +52,72 @@ $category = $service->getCategory();
 <template data-consent-category="<?= $escaper->escapeHtmlAttr($category) ?>">
     <script async src="<?= $escaper->escapeUrl($klaviyoSrc) ?>"></script>
 </template>
+
+<!-- Customer identify — listens for Magento private-content-loaded and
+     calls klaviyo.identify() once marketing consent + SDK are both ready. -->
+<div x-data="klaviyoCustomerTracking" @private-content-loaded.window="onPrivateContentLoaded($event)"></div>
+
+<script>
+    function initKlaviyoCustomerTracking() {
+        return {
+            identifyDispatched: false,
+
+            onPrivateContentLoaded(event) {
+                const customer = event.detail && event.detail.data && event.detail.data.customer;
+                if (!customer || !customer.email) {
+                    return;
+                }
+
+                if (window.klaviyoConsentGranted && window.klaviyoConsentGranted()) {
+                    this.identifyCustomer(customer);
+                    return;
+                }
+
+                window.addEventListener('cookie-consent-updated', () => {
+                    if (window.klaviyoConsentGranted && window.klaviyoConsentGranted() && !this.identifyDispatched) {
+                        this.identifyCustomer(customer);
+                    }
+                }, { once: true });
+            },
+
+            identifyCustomer(customer) {
+                if (this.identifyDispatched) {
+                    return;
+                }
+                this.identifyDispatched = true;
+
+                const profile = {
+                    '$email': customer.email,
+                    '$first_name': customer.firstname || '',
+                    '$last_name': customer.lastname || ''
+                };
+
+                // klaviyo.js loads asynchronously after the consent template is
+                // activated, so isIdentified() may not yet be a function when
+                // private-content-loaded fires. Poll briefly until the SDK
+                // installs its real API, then dedupe and identify.
+                const maxAttempts = 50;
+                let attempts = 0;
+                const tryIdentify = () => {
+                    if (window.klaviyo && typeof window.klaviyo.isIdentified === 'function') {
+                        window.klaviyo.isIdentified().then((identified) => {
+                            if (!identified) {
+                                window.klaviyo.identify(profile);
+                            }
+                        });
+                        return;
+                    }
+                    if (++attempts < maxAttempts) {
+                        setTimeout(tryIdentify, 200);
+                    }
+                };
+                tryIdentify();
+            }
+        };
+    }
+
+    window.addEventListener('alpine:init', () => {
+        window.Alpine.data('klaviyoCustomerTracking', initKlaviyoCustomerTracking);
+    }, { once: true });
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>
