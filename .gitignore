@@ -5,3 +5,4 @@
 vendor/
 composer.lock
 node_modules/
+*.sync-conflict-*

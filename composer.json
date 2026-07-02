@@ -1,27 +1,66 @@
 {
-  "name": "pixelperfectat/magento2-klaviyo-hyva-cookie-consent",
-  "description": "Cookie consent bridge for Klaviyo Hyva compatibility. Integrates Klaviyo tracking with Pixelperfect_HyvaCookieConsent category-based consent.",
-  "type": "magento2-module",
-  "require": {
-    "php": "^8.1",
-    "magento/framework": "*",
-    "pixelperfectat/module-hyva-cookie-consent": "*",
-    "pixelperfectat/magento2-klaviyo-hyva-compat": "*",
-    "klaviyo/magento2-extension": "*"
-  },
-  "authors": [
-    {
-      "name": "PixelPerfect",
-      "homepage": "https://github.com/pixelperfectat"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "files": [
-      "src/registration.php"
+    "name": "pixelperfectat/magento2-klaviyo-hyva-cookie-consent",
+    "description": "Cookie consent bridge for Klaviyo Hyva compatibility. Integrates Klaviyo tracking with Pixelperfect_HyvaCookieConsent category-based consent.",
+    "type": "magento2-module",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "PixelPerfect",
+            "homepage": "https://github.com/pixelperfectat"
+        }
     ],
-    "psr-4": {
-      "PixelPerfect\\KlaviyoHyvaCookieConsent\\": "src/"
-    }
-  }
+    "require": {
+        "php": "^8.1",
+        "klaviyo/magento2-extension": "*",
+        "magento/framework": "*",
+        "pixelperfectat/magento2-klaviyo-hyva-compat": "*",
+        "pixelperfectat/module-hyva-cookie-consent": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "pixelperfectat/coding-standard": "^0.1.0"
+    },
+    "autoload": {
+        "files": [
+            "src/registration.php"
+        ],
+        "psr-4": {
+            "PixelPerfect\\KlaviyoHyvaCookieConsent\\": "src/"
+        }
+    },
+    "scripts": {
+        "lint": "parallel-lint --exclude vendor --exclude generated .",
+        "cs": "phpcs",
+        "cs:fix": "phpcbf",
+        "stan": "phpstan analyse",
+        "test": "phpunit",
+        "ci:validate": "@composer validate --no-check-publish",
+        "check": [
+            "@ci:validate",
+            "@lint",
+            "@cs",
+            "@stan",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "laminas/laminas-dependency-plugin": true,
+            "magento/*": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ]
 }
