@@ -45,6 +45,10 @@
             "@test"
         ]
     },
+    "replace": {
+        "hyva-themes/magento2-compat-module-fallback": "*",
+        "hyva-themes/magento2-theme-module": "*"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
