@@ -1,14 +1,27 @@
 {
     "name": "pixelperfectat/magento2-klaviyo-hyva-cookie-consent",
-    "description": "Cookie consent bridge for Klaviyo Hyva compatibility. Integrates Klaviyo tracking with Pixelperfect_HyvaCookieConsent category-based consent.",
+    "description": "Gates Klaviyo on Hyvä behind the marketing category of pixelperfectat/module-hyva-cookie-consent.",
     "license": "MIT",
     "type": "magento2-module",
+    "keywords": [
+        "magento2",
+        "magento2-module",
+        "hyva",
+        "hyva-themes",
+        "klaviyo",
+        "cookie-consent",
+        "gdpr"
+    ],
     "authors": [
         {
             "name": "PixelPerfect",
             "homepage": "https://github.com/pixelperfectat"
         }
     ],
+    "support": {
+        "issues": "https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/issues",
+        "source": "https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent"
+    },
     "require": {
         "php": "^8.3",
         "klaviyo/magento2-extension": "^4.0",
@@ -33,10 +46,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/hyva-themes/magento2-compat-module-fallback.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/pixelperfectat/magento2-klaviyo-hyva-compat.git"
         }
     ],
     "autoload": {
