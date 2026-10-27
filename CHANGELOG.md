@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- Support PHP 8.2, 8.3 and 8.4 (`~8.2.0 || ~8.3.0 || ~8.4.0`); the code has no 8.3-only syntax.
+- Support PHP 8.2 to 8.5 (`~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0`); the code has no 8.3-only syntax, and the checks pass on 8.5.
 - Allow `klaviyo/magento2-extension` 5.x (`^4.4 || ^5.0`).
 - Allow `pixelperfectat/magento2-klaviyo-hyva-compat` 0.2 (`^0.1 || ^0.2`).
 - Require `hyva-themes/magento2-theme-module ^1.3.11`, the first release with the `HyvaCsp` view model the template uses, and `magento/module-config`, whose source model the admin setting uses.

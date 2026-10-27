@@ -12,7 +12,7 @@ customer is identified until the visitor grants marketing consent.
 
 | Package | Version |
 |---|---|
-| PHP | 8.2, 8.3 or 8.4 |
+| PHP | 8.2, 8.3, 8.4 or 8.5 |
 | Magento Open Source / Adobe Commerce | 2.4 with `magento/framework` 103.x |
 | `hyva-themes/magento2-theme-module` | 1.3.11 or later |
 | `pixelperfectat/module-hyva-cookie-consent` | 0.3.x |
