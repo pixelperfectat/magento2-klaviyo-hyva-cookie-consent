@@ -1,32 +1,24 @@
 import { test, expect } from '@playwright/test';
+import { REJECT_ALL, expectNoKlaviyoCookie, recordKlaviyoTraffic } from '../fixtures/klaviyo';
 
 test.describe('Klaviyo blocked without marketing consent', () => {
-    test('does not load klaviyo.js when marketing consent denied', async ({ page }) => {
-        const klaviyoRequests: string[] = [];
-
-        page.on('request', request => {
-            if (request.url().includes('static.klaviyo.com')) {
-                klaviyoRequests.push(request.url());
-            }
-        });
-
-        // Clear any existing consent cookie to start fresh
-        await page.context().clearCookies();
+    test('loads nothing from Klaviyo before a choice and after "Reject All"', async ({ page, context }) => {
+        await context.clearCookies();
+        const traffic = recordKlaviyoTraffic(page);
 
         await page.goto('/');
-        await page.waitForTimeout(3000);
+        await page.waitForLoadState('networkidle');
+        expect(traffic.klaviyo).toHaveLength(0);
+        await expectNoKlaviyoCookie(context);
 
-        // Verify no Klaviyo CDN request was made
-        expect(klaviyoRequests).toHaveLength(0);
+        await page.locator(REJECT_ALL).click();
+        await page.waitForLoadState('networkidle');
+        await page.reload();
+        await page.waitForLoadState('networkidle');
 
-        // Verify window.klaviyo is not the SDK (just an array or undefined)
-        const klaviyoType = await page.evaluate(() => {
-            if (typeof window.klaviyo === 'undefined') return 'undefined';
-            if (Array.isArray(window.klaviyo)) return 'array';
-            if (typeof window.klaviyo?.isIdentified === 'function') return 'sdk';
-            return 'other';
-        });
-
-        expect(klaviyoType).not.toBe('sdk');
+        expect(traffic.klaviyo).toHaveLength(0);
+        await expectNoKlaviyoCookie(context);
+        const sdkLoaded = await page.evaluate(() => typeof (window as any).klaviyo?.isIdentified === 'function');
+        expect(sdkLoaded).toBe(false);
     });
 });
