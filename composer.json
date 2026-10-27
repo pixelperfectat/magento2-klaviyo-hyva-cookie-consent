@@ -24,7 +24,7 @@
     },
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-        "klaviyo/magento2-extension": "^4.0",
+        "klaviyo/magento2-extension": "^4.4 || ^5.0",
         "magento/framework": "^103.0",
         "pixelperfectat/magento2-klaviyo-hyva-compat": "^0.1",
         "pixelperfectat/module-hyva-cookie-consent": "^0.3"

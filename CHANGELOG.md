@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Support PHP 8.2, 8.3 and 8.4 (`~8.2.0 || ~8.3.0 || ~8.4.0`); the code has no 8.3-only syntax.
+- Allow `klaviyo/magento2-extension` 5.x (`^4.4 || ^5.0`).
 
 ## [0.2.0] - 2026-07-06
 
