@@ -6,3 +6,6 @@ vendor/
 composer.lock
 node_modules/
 *.sync-conflict-*
+.phpunit.result.cache
+.phpunit.cache/
+var/
