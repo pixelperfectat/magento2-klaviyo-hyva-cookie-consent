@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HyvaCsp;
+use Magento\Framework\View\Element\Template;
+use PixelPerfect\KlaviyoHyvaCookieConsent\Model\ConsentGate;
+
+/** @var Template $block */
+/** @var ViewModelRegistry $viewModels */
+
+$consentGate = $block->getData('consent_gate');
+if (!$consentGate instanceof ConsentGate) {
+    $consentGate = $viewModels->require(ConsentGate::class);
+}
+
+/** @var HyvaCsp $hyvaCsp */
+$hyvaCsp = $viewModels->require(HyvaCsp::class);
+
+// Rendered in the page head so that the check exists before any Klaviyo template runs. The compat
+// module and Klaviyo's checkout email step only add their own check when none is defined yet.
+// Without Alpine (e.g. a Luma-rendered checkout) window.cookie_consent_groups is never filled, so
+// the consent cookie saved by the consent banner is read as well.
+?>
+<script>
+    (function() {
+        var serviceEnabled = <?= $consentGate->isKlaviyoServiceEnabled() ? 'true' : 'false' ?>;
+        var consentVersion = <?= (int) $consentGate->getConsentVersion() ?>;
+
+        function savedMarketingConsent() {
+            var match = document.cookie.match(/(?:^|;\s*)hyva_cookie_consent=([^;]*)/);
+            if (!match) {
+                return false;
+            }
+            try {
+                var saved = JSON.parse(decodeURIComponent(match[1]));
+                return saved.version === consentVersion
+                    && !!saved.categories
+                    && saved.categories.marketing === true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        window.klaviyoConsentGranted = function() {
+            if (!serviceEnabled) {
+                return false;
+            }
+            if (window.cookie_consent_groups && window.cookie_consent_groups.marketing === true) {
+                return true;
+            }
+            return savedMarketingConsent();
+        };
+    })();
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>

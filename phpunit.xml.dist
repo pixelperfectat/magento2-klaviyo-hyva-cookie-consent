@@ -11,6 +11,7 @@
     </testsuites>
     <coverage>
         <include>
+            <directory suffix=".php">src/Model</directory>
             <directory suffix=".php">src/ViewModel</directory>
         </include>
     </coverage>

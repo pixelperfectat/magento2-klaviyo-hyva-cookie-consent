@@ -6,13 +6,27 @@
              The service template (services/klaviyo.phtml) handles this with consent gating. -->
         <referenceBlock name="klaviyo.initialize" remove="true"/>
 
+        <!-- Defines window.klaviyoConsentGranted() before any Klaviyo template runs. -->
+        <referenceContainer name="head.additional">
+            <block name="klaviyo.hyva.cookie.consent.check"
+                   template="PixelPerfect_KlaviyoHyvaCookieConsent::consent-check.phtml">
+                <arguments>
+                    <argument name="consent_gate" xsi:type="object">
+                        PixelPerfect\KlaviyoHyvaCookieConsent\Model\ConsentGate
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
         <referenceContainer name="before.body.end">
             <block name="hyva.cookie.consent.service.klaviyo"
                    template="PixelPerfect_KlaviyoHyvaCookieConsent::services/klaviyo.phtml"
                    ifconfig="hyva_cookie_consent/services/klaviyo/enabled"
                    after="hyva.cookie.consent.service.matomo">
                 <arguments>
-                    <argument name="view_model" xsi:type="object">Pixelperfect\HyvaCookieConsent\ViewModel\CookieConsent</argument>
+                    <argument name="view_model" xsi:type="object">
+                        Pixelperfect\HyvaCookieConsent\ViewModel\CookieConsent
+                    </argument>
                 </arguments>
             </block>
         </referenceContainer>
