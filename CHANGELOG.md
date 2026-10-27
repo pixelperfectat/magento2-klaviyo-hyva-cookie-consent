@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Klaviyo could load before marketing consent was given.
+- Installing the bridge silenced Klaviyo while the cookie consent module was disabled. Klaviyo's loader is now only replaced while cookie consent is enabled; otherwise Klaviyo and the compat module keep their default behaviour.
 
 ## [0.2.0] - 2026-07-06
 

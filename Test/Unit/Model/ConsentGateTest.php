@@ -26,6 +26,20 @@ class ConsentGateTest extends TestCase
     }
 
     /**
+     * @dataProvider flagProvider
+     */
+    public function testConsentManagementFollowsTheConsentModuleFlag(bool $flag): void
+    {
+        $scopeConfig = $this->createMock(ScopeConfigInterface::class);
+        $scopeConfig->expects(self::once())
+            ->method('isSetFlag')
+            ->with('web/hyva_cookie_consent/general/enabled', ScopeInterface::SCOPE_STORE)
+            ->willReturn($flag);
+
+        self::assertSame($flag, (new ConsentGate($scopeConfig))->isConsentManagementEnabled());
+    }
+
+    /**
      * @return array<string, array{bool}>
      */
     public static function flagProvider(): array

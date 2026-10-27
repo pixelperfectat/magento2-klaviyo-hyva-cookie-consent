@@ -6,12 +6,20 @@ use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HyvaCsp;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use PixelPerfect\KlaviyoHyvaCookieConsent\Model\ConsentGate;
 use PixelPerfect\KlaviyoHyvaCookieConsent\ViewModel\KlaviyoConfig;
 use Pixelperfect\HyvaCookieConsent\ViewModel\CookieConsent;
 
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ViewModelRegistry $viewModels */
+
+/** @var ConsentGate $consentGate */
+$consentGate = $viewModels->require(ConsentGate::class);
+if (!$consentGate->isConsentManagementEnabled()) {
+    // Klaviyo keeps its own loader while the consent module is off (Observer\RemoveUngatedKlaviyoLoaders).
+    return;
+}
 
 $consentViewModel = $block->getData('view_model');
 if (!$consentViewModel instanceof CookieConsent) {

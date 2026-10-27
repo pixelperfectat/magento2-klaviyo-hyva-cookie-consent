@@ -2,14 +2,14 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <!-- Remove unconditional Klaviyo CDN loading from base compat module.
-             The service template (services/klaviyo.phtml) handles this with consent gating. -->
-        <referenceBlock name="klaviyo.initialize" remove="true"/>
+        <!-- Klaviyo's own loader blocks are removed by Observer\RemoveUngatedKlaviyoLoaders while the
+             cookie consent module is on; services/klaviyo.phtml loads Klaviyo after consent instead. -->
 
         <!-- Defines window.klaviyoConsentGranted() before any Klaviyo template runs. -->
         <referenceContainer name="head.additional">
             <block name="klaviyo.hyva.cookie.consent.check"
-                   template="PixelPerfect_KlaviyoHyvaCookieConsent::consent-check.phtml">
+                   template="PixelPerfect_KlaviyoHyvaCookieConsent::consent-check.phtml"
+                   ifconfig="web/hyva_cookie_consent/general/enabled">
                 <arguments>
                     <argument name="consent_gate" xsi:type="object">
                         PixelPerfect\KlaviyoHyvaCookieConsent\Model\ConsentGate

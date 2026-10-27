@@ -16,6 +16,7 @@ use Magento\Store\Model\ScopeInterface;
  */
 class ConsentGate implements ArgumentInterface
 {
+    private const XML_PATH_CONSENT_ENABLED = 'web/hyva_cookie_consent/general/enabled';
     private const XML_PATH_SERVICE_ENABLED = 'hyva_cookie_consent/services/klaviyo/enabled';
     private const XML_PATH_CONSENT_VERSION = 'web/hyva_cookie_consent/general/consent_version';
     private const DEFAULT_CONSENT_VERSION = 1;
@@ -26,6 +27,14 @@ class ConsentGate implements ArgumentInterface
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig
     ) {
+    }
+
+    /**
+     * Whether the cookie consent module is switched on. While it is off, this module stays out of the way.
+     */
+    public function isConsentManagementEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_CONSENT_ENABLED, ScopeInterface::SCOPE_STORE);
     }
 
     /**
