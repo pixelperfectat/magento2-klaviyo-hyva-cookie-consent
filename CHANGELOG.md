@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow `pixelperfectat/magento2-klaviyo-hyva-compat` 0.2 (`^0.1 || ^0.2`).
 - Require `hyva-themes/magento2-theme-module ^1.3.11`, the first release with the `HyvaCsp` view model the template uses, and `magento/module-config`, whose source model the admin setting uses.
 - `window.klaviyoConsentGranted()` is now defined in the page head (block `klaviyo.hyva.cookie.consent.check`), before any Klaviyo template runs.
+- The Klaviyo service is now enabled by default (`hyva_cookie_consent/services/klaviyo/enabled = 1`), so Klaviyo works consent-gated right after installation instead of staying off until an admin switches the service on.
 
 ### Fixed
 - Klaviyo could load before marketing consent was given.
