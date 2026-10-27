@@ -14,22 +14,34 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
  */
 class KlaviyoConfig implements ArgumentInterface
 {
+    /**
+     * @param ScopeSetting $scopeSetting
+     */
     public function __construct(
         private readonly ScopeSetting $scopeSetting
     ) {
     }
 
+    /**
+     * Whether the Klaviyo extension itself is enabled for the current store.
+     */
     public function isEnabled(): bool
     {
         return (bool) $this->scopeSetting->isEnabled();
     }
 
+    /**
+     * Klaviyo public API key, or null when none is configured.
+     */
     public function getPublicApiKey(): ?string
     {
         $key = $this->scopeSetting->getPublicApiKey();
         return $key !== null && $key !== '' ? (string) $key : null;
     }
 
+    /**
+     * URL of Klaviyo's onsite SDK (klaviyo.js), or null without a public API key.
+     */
     public function getCdnUrl(): ?string
     {
         $key = $this->getPublicApiKey();

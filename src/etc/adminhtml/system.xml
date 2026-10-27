@@ -4,12 +4,19 @@
     <system>
         <section id="hyva_cookie_consent">
             <group id="services">
-                <group id="klaviyo" translate="label" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="klaviyo" translate="label" sortOrder="80"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Klaviyo</label>
-                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Enable</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <comment><![CDATA[Gates the Klaviyo CDN script (<code>klaviyo.js</code>) and the <code>__kla_id</code> tracking cookie behind the <strong>marketing</strong> consent category — they only load after the user grants marketing consent.<br/><br/>The Klaviyo API keys themselves are configured in the Klaviyo extension at <strong>Stores &gt; Configuration &gt; Klaviyo &gt; General</strong>.]]></comment>
+                        <comment><![CDATA[Gates the Klaviyo CDN script (<code>klaviyo.js</code>) and the
+                        <code>__kla_id</code> tracking cookie behind the <strong>marketing</strong> consent
+                        category — they only load after the user grants marketing consent. Set to No to
+                        switch Klaviyo's storefront tracking off while cookie consent is enabled.<br/><br/>
+                        The Klaviyo API keys themselves are configured in the Klaviyo extension at
+                        <strong>Stores &gt; Configuration &gt; Klaviyo &gt; General</strong>.]]></comment>
                     </field>
                 </group>
             </group>

@@ -6,12 +6,20 @@ use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HyvaCsp;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use PixelPerfect\KlaviyoHyvaCookieConsent\Model\ConsentGate;
 use PixelPerfect\KlaviyoHyvaCookieConsent\ViewModel\KlaviyoConfig;
 use Pixelperfect\HyvaCookieConsent\ViewModel\CookieConsent;
 
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ViewModelRegistry $viewModels */
+
+/** @var ConsentGate $consentGate */
+$consentGate = $viewModels->require(ConsentGate::class);
+if (!$consentGate->isConsentManagementEnabled()) {
+    // Klaviyo keeps its own loader while the consent module is off (Observer\RemoveUngatedKlaviyoLoaders).
+    return;
+}
 
 $consentViewModel = $block->getData('view_model');
 if (!$consentViewModel instanceof CookieConsent) {
@@ -37,24 +45,35 @@ if ($klaviyoSrc === null) {
 
 /** @var HyvaCsp $hyvaCsp */
 $hyvaCsp = $viewModels->require(HyvaCsp::class);
-$category = $service->getCategory();
-?>
 
-<!-- Override default consent check to use cookie consent groups -->
+// window.klaviyoConsentGranted() is defined in the page head (consent-check.phtml). klaviyo.js is
+// injected from a plain script, not from a <template data-consent-category>, so it also loads on
+// pages without Alpine, such as a Luma-rendered checkout.
+?>
 <script>
-    window.klaviyoConsentGranted = function() {
-        return window.cookie_consent_groups && window.cookie_consent_groups.marketing || false;
-    };
+    (function() {
+        var sdkUrl = '<?= $escaper->escapeJs($klaviyoSrc) ?>';
+
+        function loadKlaviyo() {
+            if (typeof window.klaviyoConsentGranted !== 'function' || !window.klaviyoConsentGranted()) {
+                return;
+            }
+            if (document.querySelector('script[src*="klaviyo.js"]')) {
+                return;
+            }
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = sdkUrl;
+            document.head.appendChild(script);
+        }
+
+        loadKlaviyo();
+        window.addEventListener('cookie-consent-updated', loadKlaviyo);
+    })();
 </script>
 <?php $hyvaCsp->registerInlineScript() ?>
 
-<!-- Klaviyo CDN — gated until marketing consent -->
-<template data-consent-category="<?= $escaper->escapeHtmlAttr($category) ?>">
-    <script async src="<?= $escaper->escapeUrl($klaviyoSrc) ?>"></script>
-</template>
-
-<!-- Customer identify — listens for Magento private-content-loaded and
-     calls klaviyo.identify() once marketing consent + SDK are both ready. -->
+<?php // Customer identify: waits for private-content-loaded, marketing consent and the SDK. ?>
 <div x-data="klaviyoCustomerTracking" @private-content-loaded.window="onPrivateContentLoaded"></div>
 
 <script>
