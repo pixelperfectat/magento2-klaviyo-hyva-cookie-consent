@@ -1,5 +1,10 @@
 # Klaviyo Cookie Consent Bridge
 
+[![CI](https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/actions/workflows/ci.yml)
+[![Packagist version](https://img.shields.io/packagist/v/pixelperfectat/magento2-klaviyo-hyva-cookie-consent)](https://packagist.org/packages/pixelperfectat/magento2-klaviyo-hyva-cookie-consent)
+[![PHP](https://img.shields.io/packagist/dependency-v/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/php)](composer.json)
+[![License: MIT](https://img.shields.io/packagist/l/pixelperfectat/magento2-klaviyo-hyva-cookie-consent)](LICENSE)
+
 Gates Klaviyo (`klaviyo/magento2-extension`) behind the **marketing** category of
 [`pixelperfectat/module-hyva-cookie-consent`](https://github.com/pixelperfectat/module-hyva-cookie-consent)
 on Hyvä stores that use
