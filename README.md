@@ -15,8 +15,8 @@ customer is identified until the visitor grants marketing consent.
 | PHP | 8.2, 8.3, 8.4 or 8.5 |
 | Magento Open Source / Adobe Commerce | 2.4 with `magento/framework` 103.x |
 | `hyva-themes/magento2-theme-module` | 1.3.11 or later |
-| `pixelperfectat/module-hyva-cookie-consent` | 0.3.x |
-| `pixelperfectat/magento2-klaviyo-hyva-compat` | 0.1.x or 0.2.x |
+| `pixelperfectat/module-hyva-cookie-consent` | 0.3.x or 0.4.x |
+| `pixelperfectat/magento2-klaviyo-hyva-compat` | 0.3.x |
 | `klaviyo/magento2-extension` | 4.4.x or 5.x |
 
 ## How it works
@@ -62,10 +62,14 @@ The Klaviyo API keys and Klaviyo's own enable switch stay in **Stores > Configur
 | Disabled | any | The bridge stays out of the way: Klaviyo and the compat module behave as without the bridge |
 
 With cookie consent disabled, the compat module's own check applies: Klaviyo loads when Magento's
-cookie restriction mode is off, or after the visitor has accepted cookies when it is on. Note that the
-consent module enables cookie restriction mode in its `config.xml` and removes Magento's cookie notice,
-even while it is disabled. In that combination nobody can accept cookies, so Klaviyo stays off until
-you either enable cookie consent or set cookie restriction mode to No.
+cookie restriction mode is off, or after the visitor has accepted cookies when it is on. Compat 0.3
+is required because older compat versions treated a missing cookie as consent.
+
+From cookie consent 0.4 on, a disabled consent module changes nothing in Magento, so Magento's own
+cookie notice and restriction setting apply. Cookie consent 0.3 forced cookie restriction mode on and
+removed Magento's cookie notice even while disabled; in that combination nobody can accept cookies, so
+Klaviyo stays off until you enable cookie consent, set cookie restriction mode to No, or upgrade the
+consent module.
 
 ## Consent contract
 
