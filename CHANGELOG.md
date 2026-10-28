@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-28
+
 ### Changed
 - Support PHP 8.2 to 8.5 (`~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0`); the code has no 8.3-only syntax, and the checks pass on 8.5.
 - Allow `klaviyo/magento2-extension` 5.x (`^4.4 || ^5.0`).
@@ -49,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Root element name in `cookie_consent.xml`.
 - CSP-safe Alpine directive on the customer-identify component.
 
-[Unreleased]: https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/compare/v0.2.0...0.3.0
 [0.2.0]: https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/pixelperfectat/magento2-klaviyo-hyva-cookie-consent/releases/tag/v0.1.0
